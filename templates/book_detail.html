@@ -1,0 +1,49 @@
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="container">
+      <a class="navbar-brand" href="{%url 'book_list' %}">Главная страница</a> </nav> </nav>
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <h1 class="card-title mb-3">{{ book.title }}</h1>
+
+      <p class="card-text text-muted">{{ book.description }}</p>
+
+      <div class="mb-2">
+        <strong>Авторы:</strong>
+        {% for author in book.authors.all %}
+          <span class="badge bg-primary me-1">{{ author }}</span>
+        {% empty %}
+          <span class="text-muted">Нет авторов</span>
+        {% endfor %}
+      </div>
+
+      <div class="mb-3">
+        <strong>Жанры:</strong>
+        {% for genre in book.genres.all %}
+          <span class="badge bg-secondary me-1">{{ genre }}</span>
+        {% empty %}
+          <span class="text-muted">Нет жанров</span>
+        {% endfor %}
+      </div>
+
+      {% if user.is_authenticated %}
+        {% if is_favorite %}
+          <a href="{% url 'remove_from_favorites' book.pk %}"
+             class="btn btn-outline-danger">
+             Удалить из избранного
+          </a>
+        {% else %}
+          <a href="{% url 'add_to_favorites' book.pk %}"
+             class="btn btn-success">
+             Добавить в избранное
+          </a>
+        {% endif %}
+      {% endif %}
+
+    </div>
+  </div>
+</div>
